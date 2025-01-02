@@ -33,6 +33,8 @@ check_placement
 
 detailed_placement
 
+report_pack_hpwl
+
 write_def ArtNet_dpo.def
 
 set stamp2 [clock seconds]

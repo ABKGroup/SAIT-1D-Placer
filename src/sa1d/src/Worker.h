@@ -143,6 +143,8 @@ class SAWorker
     const CellLocMap& getCellLocs() { return cell_locs_; }
     void reportDetails();
 
+    void setSaveFlag(bool flag) { save_flag_ = flag; }
+    
   private:
     OptSA* opt_;
     Logger* logger_;
@@ -154,7 +156,13 @@ class SAWorker
     int max_iter_;
     std::vector<float> action_prob_;
     int num_move_per_iter_;
-   
+
+    // basic statistics
+    float elapsed_time_;
+    int flip_op_count_ = 0;
+    int move_op_count_ = 0;
+    int swap_op_count_ = 0;
+
     int accept_count_;
     int total_cells_;
     int num_nets_;
@@ -199,6 +207,10 @@ class SAWorker
     // we can calculate the delta HPWL for a cell perspective
     void updateDeltaHPWLUtil(int cell_id);   
     int updateDeltaHPWL(int net_id);
+
+    bool save_flag_ = false;
+    std::vector<float> cost_vec_;
+  
   };
 
 }  // namespace sa1d

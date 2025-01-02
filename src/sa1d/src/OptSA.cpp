@@ -439,28 +439,22 @@ void OptSA::updateOpenDB(const CellLocMap& cell_locs)
 
 void OptSA::reportPackHPWL()
 {
+  if (cells_.size() != block_->getInsts().size()) {
+    importDb(); // Avoid the re-import of the database
+  }
 
-}
-
-/*
-void OptSA::reportPackHPWL()
-{
-  importDb();
-  
-  vector<int> cell_order;
-  vector<dbOrientType> orients;
+  std::vector<int> cell_order;
+  std::vector<odb::dbOrientType> orients;
   cellOrdering(cell_order, orients);
-
-  SAWorker worker(this, logger_);
-  worker.init(0.0, 0.0, {0.5, 0.4, 0.1}, 1, -1, 1, 0);
+  SAWorker worker(this, logger_, 0);
   worker.initCellOrder(cell_order, orients);
-  worker.checkCellOrder();
-  worker.updateNetHPWL();
   int64_t hpwl = worker.getTotalHPWL();
   odb::WireLengthEvaluator eval(block_);
   int64_t hpwl_db = eval.hpwl();
-  logger_->report("HPWL before packing: {}", block_->dbuToMicrons(hpwl_db));
-  logger_->report("HPWL after packing: {}", block_->dbuToMicrons(hpwl));
+  logger_->report("[INFO] Note that there may be minor differences in HPWL due to y-direction calculation.");
+  logger_->report("[INFO] We only consider x-direction HPWL");
+  logger_->report("[INFO] HPWL before packing: {}", block_->dbuToMicrons(hpwl_db));
+  logger_->report("[INFO] HPWL after packing: {}", block_->dbuToMicrons(hpwl));
 
   // Check total cell width
   int total_width = 0;
@@ -471,15 +465,7 @@ void OptSA::reportPackHPWL()
   if (total_width > site_width_*site_count_) {
     logger_->report("Total width exceeds site width");
   }
-
-  // Check cell orientation
-  // for (auto& cell_orient: orients) {
-  //   if (cell_orient != orient_ && cell_orient != orientMirrorY(orient_)) {
-  //     logger_->report("Cell orientation is not valid");
-  //   }
-  // }
 }
-*/
 
 void OptSA::runSA()
 {  
@@ -510,6 +496,7 @@ void OptSA::runSA()
     worker->setCoolingRate(cooling_rate_);
     worker->setNumMovePerIter(num_move_per_iter_);
     worker->setMaxIter(static_cast<int>(max_iter_ * sync_freq_));
+    //worker->setSaveFlag(true);
     if (unique_move_prob_flag_ == false) {
       std::string info = "[INFO] Worker_id = ";
       info += std::to_string(worker_id) + " Move Prob = [ ";
@@ -574,7 +561,7 @@ void OptSA::runSA()
     
     // in each GWTW iteration, there are multiple sync up
     int sync_iter = static_cast<int>(max_iter_ * sync_freq_);
-    for (int iter = 0; iter <= max_iter_; iter += sync_iter) {
+    for (int iter = 0; iter < max_iter_; iter += sync_iter) {
       #pragma omp parallel for schedule(dynamic)
       for (int j = 0; j < workers.size(); j++) {
         workers[j]->run();
@@ -589,7 +576,9 @@ void OptSA::runSA()
       // print the statistcis of the results
       logger_->report("********************* the current results after iteration {} *********************", iter);
       for (auto& worker : workers) {
+        worker->reportDetails();
         logger_->report("[INFO] worker_id = {}, HPWL = {}", worker->getWorkerId(), worker->getTotalHPWL());
+      
       }
 
       int worker_cnt = top_k_; 
