@@ -1,0 +1,604 @@
+/////////////////////////////////////////////////////////////////////////////
+// Authors: Sayak Kundu (sakundu@ucsd.edu), Zhiang Wang (zhw033@ucsd.edu)
+//          Dooseok Yoon (d3yoon@ucsd.edu)
+// Copyright (c) 2024, The Regents of the University of California
+// All rights reserved.
+//
+// BSD 3-Clause License
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// * Redistributions of source code must retain the above copyright notice, this
+//   list of conditions and the following disclaimer.
+//
+// * Redistributions in binary form must reproduce the above copyright notice,
+//   this list of conditions and the following disclaimer in the documentation
+//   and/or other materials provided with the distribution.
+//
+// * Neither the name of the copyright holder nor the names of its
+//   contributors may be used to endorse or promote products derived from
+//   this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+///////////////////////////////////////////////////////////////////////////////
+
+#include "Worker.h"
+#include "sa1d/OptSA.h"
+
+#include "odb/db.h"
+#include "odb/util.h"
+
+#include <iostream>
+
+namespace sa1d {
+
+using utl::SA1D;
+
+SAWorker::SAWorker(OptSA* opt, Logger* logger)
+  : opt_(opt), logger_(logger), max_temp_(0.0), min_temp_(0.0),
+    max_iter_(0), total_cells_(0), seed_(0)
+{
+  // Constructor implementation
+  // Initialize other member variables if needed
+}
+
+SAWorker::~SAWorker()
+{
+  // Destructor implementation
+  // Clean up resources if necessary
+}
+
+void SAWorker::init(float max_temp, float min_temp, vector<float> action_prob,
+                    int max_iter, int init_type, int seed, int worker_id)
+{
+  worker_id_ = worker_id;
+  max_temp_ = max_temp;
+  min_temp_ = min_temp;
+  action_prob_ = action_prob;
+  max_iter_ = max_iter;
+  seed_ = seed;
+  init_type_ = init_type;
+  
+  // Initialize other member variables if needed
+  rng_.seed(seed_);
+  total_cells_ = opt_->cells_.size();
+  if ( init_type_ != -1 ) {
+    initCellOrder();
+  }
+}
+
+void SAWorker::initCellOrderRandom()
+{
+  cell_order_.resize(total_cells_);
+  std::iota(cell_order_.begin(), cell_order_.end(), 0);
+  std::shuffle(cell_order_.begin(), cell_order_.end(), rng_);
+}
+
+void SAWorker::initCellWidthOrder(bool ascending)
+{
+  cell_order_.resize(total_cells_);
+  std::iota(cell_order_.begin(), cell_order_.end(), 0);
+  std::sort(cell_order_.begin(), cell_order_.end(),
+            [this, ascending](int i, int j) {
+              return (opt_->cells_[i].getWidth() < opt_->cells_[j].getWidth())
+                      == ascending;
+            });
+}
+
+void SAWorker::initCellOrder()
+{
+  if ( init_type_ == 0 ) {
+    // Random Initialization of Cells
+    initCellOrderRandom();
+  } else if ( init_type_ == 1 ) {
+    // Large to small based on width
+    initCellWidthOrder(true);
+  } else if ( init_type_ == 2 ) {
+    // Small to large based on width
+    initCellWidthOrder(false);
+  }
+  updateCellLocs();
+}
+
+void SAWorker::initCellOrder(
+  std::vector<int>& cell_order, 
+  std::map<Cell*, dbOrientType>& orients)
+{
+  cell_order_ = cell_order;
+  updateCellLocs(orients);
+}
+
+
+void SAWorker::updateCellLocs()
+{
+  cell_locs_.clear();
+  int prev_width = opt_->core_llx_;
+  int y = opt_->core_lly_;
+  int x = 0;
+
+  for (int i = 0; i < total_cells_; i++) {
+    Cell* cell = &opt_->cells_[cell_order_[i]];
+    x += prev_width;
+    dbOrientType orient = opt_->orient_;
+    cell_locs_[cell] = {{x, y}, orient};
+    prev_width = cell->getWidth();
+  }
+  updateNetHPWL();
+}
+
+void SAWorker::updateCellLocs(std::map<Cell*, dbOrientType>& orients)
+{
+  cell_locs_.clear();
+  int prev_width = opt_->core_llx_;
+  int y = opt_->core_lly_;
+  int x = 0;
+  for (int i = 0; i < total_cells_; i++) {
+    Cell* cell = &opt_->cells_[cell_order_[i]];
+    x += prev_width;
+    cell_locs_[cell] = {{x, y}, orients[cell]};
+    prev_width = cell->getWidth();
+  }
+  updateNetHPWL();
+}
+
+void SAWorker::updateNetHPWL()
+{
+  net_hpwl_.clear();
+  for (Net& net : opt_->nets_) {
+    net_hpwl_[&net] = net.getHPWL(cell_locs_);
+  }
+}
+
+int SAWorker::selectCell()
+{
+  std::uniform_int_distribution<int> dist(0, total_cells_ - 1);
+  return dist(rng_);
+}
+
+int SAWorker::selectMoveType()
+{
+  std::discrete_distribution<int> dist(action_prob_.begin(),
+                                      action_prob_.end());
+  return dist(rng_);
+}
+
+int SAWorker::swapCells(int id1, int id2)
+{
+  if (id1 == id2) {
+    return 0;
+  }
+
+  // id1 is less than id2
+  if (id1 > id2) {
+    std::swap(id1, id2);
+  }
+
+  bool isSameWidth = opt_->cells_[cell_order_[id1]].getWidth() ==
+                    opt_->cells_[cell_order_[id2]].getWidth();
+  
+  // Check if the cell width is the same or not
+  CellLocMap moved_cells;
+  // Calculate the HPWL of the affected nets
+  int64_t update_hpwl = 0;
+  int64_t current_hpwl = 0;
+  set<Net*> affected_nets;
+  if (isSameWidth) {
+    for (auto net : opt_->cells_[cell_order_[id1]].nets_) {
+      affected_nets.insert(net);
+    }
+    for (auto net : opt_->cells_[cell_order_[id2]].nets_) {
+      affected_nets.insert(net);
+    }
+
+    moved_cells[&opt_->cells_[cell_order_[id1]]] = 
+          cell_locs_[&opt_->cells_[cell_order_[id2]]];
+    moved_cells[&opt_->cells_[cell_order_[id2]]] = 
+          cell_locs_[&opt_->cells_[cell_order_[id1]]];
+  } else {
+    int width1 = opt_->cells_[cell_order_[id1]].getWidth();
+    int width2 = opt_->cells_[cell_order_[id2]].getWidth();
+    int delta_width = width1 - width2;
+    moved_cells[&opt_->cells_[cell_order_[id2]]] = 
+          cell_locs_[&opt_->cells_[cell_order_[id1]]];
+    moved_cells[&opt_->cells_[cell_order_[id1]]] = 
+          cell_locs_[&opt_->cells_[cell_order_[id2]]];
+    moved_cells[&opt_->cells_[cell_order_[id1]]].first.first -= delta_width;
+    for ( int i = id1+1; i < id2; i++ ) {
+      moved_cells[&opt_->cells_[cell_order_[i]]] = 
+            cell_locs_[&opt_->cells_[cell_order_[i]]];
+      moved_cells[&opt_->cells_[cell_order_[i]]].first.first -= delta_width;
+    }
+
+    for (int i = id1; i <= id2; i++ ) {
+      for (auto net : opt_->cells_[cell_order_[i]].nets_) {
+        affected_nets.insert(net);
+      }
+    }
+  }
+
+  for (auto net : affected_nets) {
+    update_hpwl += net->getDeltaHPWL(cell_locs_, moved_cells);
+    current_hpwl += net_hpwl_[net];
+  }
+  int delta_hpwl = static_cast<int>(update_hpwl - current_hpwl);
+  return delta_hpwl;
+}
+
+void SAWorker::swapCellsAccept(int id1, int id2)
+{
+  if (id1 == id2) {
+    return;
+  }
+
+  // id1 is less than id2
+  if (id1 > id2) {
+    std::swap(id1, id2);
+  }
+
+  bool isSameWidth = opt_->cells_[cell_order_[id1]].getWidth() ==
+                    opt_->cells_[cell_order_[id2]].getWidth();
+  
+  // Calculate the HPWL of the affected nets
+  set<Net*> affected_nets;
+  if (isSameWidth) {
+    for (auto net : opt_->cells_[cell_order_[id1]].nets_) {
+      affected_nets.insert(net);
+    }
+    for (auto net : opt_->cells_[cell_order_[id2]].nets_) {
+      affected_nets.insert(net);
+    }
+    std::swap(cell_order_[id1], cell_order_[id2]); 
+    // Updated cell_locs_ based on the swap
+    std::swap(cell_locs_[&opt_->cells_[cell_order_[id1]]], 
+            cell_locs_[&opt_->cells_[cell_order_[id2]]]);
+  } else {
+    int width1 = opt_->cells_[cell_order_[id1]].getWidth();
+    int width2 = opt_->cells_[cell_order_[id2]].getWidth();
+    int delta_width = width1 - width2;
+    std::swap(cell_order_[id1], cell_order_[id2]);
+    std::swap(cell_locs_[&opt_->cells_[cell_order_[id1]]], 
+            cell_locs_[&opt_->cells_[cell_order_[id2]]]);
+    //moved_cells[&opt_->cells_[cell_order_[id1]]].first.first -= delta_width;
+    for ( int i = id1+1; i <= id2; i++ ) {
+      cell_locs_[&opt_->cells_[cell_order_[i]]].first.first -= delta_width;
+    }
+
+    for ( int i = id1; i <= id2; i++ ) {
+      for (auto net : opt_->cells_[cell_order_[i]].nets_) {
+        affected_nets.insert(net);
+      }
+    }
+  }
+  // Update net HPWL of the affected nets
+  for (auto net : affected_nets) {
+    net_hpwl_[net] = net->getHPWL(cell_locs_);
+  }
+}
+
+int SAWorker::moveCell(int id, int n)
+{
+  // If new location is same as the current location return 0
+  if (n == id ) {
+    return 0;
+  }
+  // Get the cell width
+  int width = opt_->cells_[cell_order_[id]].getWidth();
+  
+  // Get the new location
+  int new_x = cell_locs_[&opt_->cells_[cell_order_[n]]].first.first;
+  int new_y = cell_locs_[&opt_->cells_[cell_order_[n]]].first.second;
+  dbOrientType orient = cell_locs_[&opt_->cells_[cell_order_[id]]].second;
+  if (id < n) {
+    int new_width = opt_->cells_[cell_order_[n]].getWidth();
+    new_x = new_x + new_width - width;
+  } 
+
+  CellLocMap moved_cells;
+  set<Net*> affected_nets;
+  
+  // Update location of the moved cell
+  moved_cells[&opt_->cells_[cell_order_[id]]] = {{new_x, new_y}, orient};
+  for (auto net : opt_->cells_[cell_order_[id]].nets_) {
+    affected_nets.insert(net);
+  }
+  
+  // Update location of the cells in between
+  int id1, id2, direction;
+  if ( id < n ) {
+    id1 = id + 1;
+    id2 = n;
+    direction = -1;
+  } else {
+    id1 = n;
+    id2 = id - 1;
+    direction = 1;
+  }
+  width = opt_->cells_[cell_order_[id]].getWidth();
+
+  for ( int i = id1; i <= id2; i++ ) {
+    moved_cells[&opt_->cells_[cell_order_[i]]] = 
+          cell_locs_[&opt_->cells_[cell_order_[i]]];
+    moved_cells[&opt_->cells_[cell_order_[i]]].first.first += direction * width;
+    for (auto net : opt_->cells_[cell_order_[i]].nets_) {
+      affected_nets.insert(net);
+    }
+  }
+
+  // Calculate the HPWL of the affected nets
+  int64_t update_hpwl = 0;
+  int64_t current_hpwl = 0;
+  for (auto net : affected_nets) {
+    update_hpwl += net->getDeltaHPWL(cell_locs_, moved_cells);
+    current_hpwl += net_hpwl_[net];
+  }
+  int delta_hpwl = static_cast<int>(update_hpwl - current_hpwl);
+  return delta_hpwl;
+}
+
+void SAWorker::moveCellAccept(int id, int n)
+{
+  // If new location is same as the current location return
+  if (n == id ) {
+    return;
+  }
+
+  // Get the cell width
+  int width = opt_->cells_[cell_order_[id]].getWidth();
+  
+  // Get the new location
+  int new_x = cell_locs_[&opt_->cells_[cell_order_[n]]].first.first;
+  int new_y = cell_locs_[&opt_->cells_[cell_order_[n]]].first.second;
+  if (id < n) {
+    int new_width = opt_->cells_[cell_order_[n]].getWidth();
+    new_x = new_x + new_width - width;
+  } 
+
+
+  auto orient = cell_locs_[&opt_->cells_[cell_order_[id]]].second;
+
+  set<Net*> affected_nets;
+  
+  // Update location of the moved cell
+  cell_locs_[&opt_->cells_[cell_order_[id]]] = {{new_x, new_y}, orient};
+  for (auto net : opt_->cells_[cell_order_[id]].nets_) {
+    affected_nets.insert(net);
+  }
+  
+  // Update location of the cells in between
+  int id1, id2, direction;
+  if ( id < n ) {
+    id1 = id + 1;
+    id2 = n;
+    direction = -1;
+  } else {
+    id1 = n;
+    id2 = id - 1;
+    direction = 1;
+  }
+  width = opt_->cells_[cell_order_[id]].getWidth();
+
+  // update the cell location first
+  for ( int i = id1; i <= id2; i++ ) {
+    cell_locs_[&opt_->cells_[cell_order_[i]]].first.first += direction * width;
+    for (auto net : opt_->cells_[cell_order_[i]].nets_) {
+      affected_nets.insert(net);
+    }
+  }
+
+  int curr_cell_id = cell_order_[id];
+  if (id < n) {
+    for (int i = id; i < n; i++) {
+      cell_order_[i] = cell_order_[i + 1];
+    }
+  } else {
+    for (int i = id; i > n; i--) {
+      cell_order_[i] = cell_order_[i - 1];
+    }
+  }
+
+  cell_order_[n] = curr_cell_id;
+  
+  // Update net HPWL of the affected nets
+  for (auto net : affected_nets) {
+    net_hpwl_[net] = net->getHPWL(cell_locs_);
+  }
+}
+
+int SAWorker::flipCell(int id)
+{
+  // Get the current location
+  int x = cell_locs_[&opt_->cells_[cell_order_[id]]].first.first;
+  int y = cell_locs_[&opt_->cells_[cell_order_[id]]].first.second;
+  dbOrientType orient = cell_locs_[&opt_->cells_[cell_order_[id]]].second;
+  orient = opt_->orientMirrorY(orient);
+  CellLocMap moved_cells;
+  moved_cells[&opt_->cells_[cell_order_[id]]] = {{x, y}, orient};
+  int64_t update_hpwl = 0;
+  int64_t current_hpwl = 0;
+  for (auto net : opt_->cells_[cell_order_[id]].nets_) {
+    update_hpwl += net->getDeltaHPWL(cell_locs_, moved_cells);
+    current_hpwl += net_hpwl_[net];
+  }
+  int delta_hpwl = static_cast<int>(update_hpwl - current_hpwl);
+  return delta_hpwl;
+}
+
+void SAWorker::flipCellAccept(int id)
+{
+  // Get the current location
+  int x = cell_locs_[&opt_->cells_[cell_order_[id]]].first.first;
+  int y = cell_locs_[&opt_->cells_[cell_order_[id]]].first.second;
+  dbOrientType orient = cell_locs_[&opt_->cells_[cell_order_[id]]].second;
+  orient = opt_->orientMirrorY(orient);
+  cell_locs_[&opt_->cells_[cell_order_[id]]] = {{x, y}, orient};
+  for (auto net : opt_->cells_[cell_order_[id]].nets_) {
+    net_hpwl_[net] = net->getHPWL(cell_locs_);
+  }
+}
+
+
+// define the same guardband
+float safeExp(float x) 
+{
+  x = std::min(x, 50.0f);
+  x = std::max(x, -50.0f);
+  return std::exp(x);  
+}
+
+// Define the guard for exp to avoid overflow
+void SAWorker::run()
+{
+  // Run the simulated annealing algorithm
+  temp_ = max_temp_;
+  // use the initial hpwl for normalization
+  float norm_hpwl = static_cast<float>(getTotalHPWL());
+  // Calculate the interval for reporting
+  int report_interval = max_iter_ / 99;
+  iter_ = 0;
+  accept_count_ = 0;
+  iter_start_time_ = std::chrono::high_resolution_clock::now();
+  
+  // Initial report before starting the annealing process
+  reportDetails();
+  int64_t curr_hpwl = getTotalHPWL();
+  while (iter_ < max_iter_) {
+    for (int perturb_idx = 0; perturb_idx < num_perturb_per_iter_; perturb_idx++) {
+      int move_type = selectMoveType();
+      int id1 = selectCell();
+      int id2 = selectCell();
+      int delta_hpwl = 0;
+      switch (move_type) {
+        case 0:
+          delta_hpwl = swapCells(id1, id2);
+          break;
+        case 1:
+          delta_hpwl = moveCell(id1, id2);
+          break;
+        case 2:
+          delta_hpwl = flipCell(id1);
+          break;
+        default:
+          logger_->error(sa1d::SA1D, 4, "Invalid move type selected.");
+      }
+           
+      if (delta_hpwl <= 0.0 || distribution_(rng_) < safeExp(-1.0 * delta_hpwl / norm_hpwl / temp_)) {
+        accept_count_++;
+        // Accept the move
+        switch (move_type) {
+          case 0:
+            swapCellsAccept(id1, id2);
+            break;
+          case 1:
+            moveCellAccept(id1, id2);
+            break;
+          case 2:
+            flipCellAccept(id1);
+            break;
+        }
+
+        curr_hpwl += delta_hpwl;
+        if (curr_hpwl != getTotalHPWL()) {
+          logger_->error(sa1d::SA1D, 5, "curr_hpwl does not match !!!");
+        }
+
+        // for testing
+        vector<int> cell_order = getFinalOrdering();
+        std::map<Cell*, dbOrientType> orients = getFinalOrients();
+        initCellOrder(cell_order, orients);
+        if (curr_hpwl != getTotalHPWL()) {
+          logger_->error(sa1d::SA1D, 6, "the updated location or flip operation is wrong !!!");
+        }
+      }
+    }
+    temp_ = temp_ * cooling_rate_;
+    iter_++;
+    if (iter_ % report_interval == 0) {
+      reportDetails();
+    }
+  }
+  // Final report after the annealing process
+  reportDetails();
+}
+
+vector<int> SAWorker::getFinalOrdering()
+{
+  return cell_order_;   
+  // vector<int> final_ordering;
+  // for (int i = 0; i < total_cells_; i++) {
+  //  final_ordering.push_back(cell_order_[i]);
+  // }
+  // return final_ordering;
+}
+
+std::map<Cell*, dbOrientType> SAWorker::getFinalOrients()
+{
+  std::map<Cell*, dbOrientType> final_orients;
+  for (auto& [cell, cell_loc] : cell_locs_) {
+    final_orients[cell] = cell_loc.second;
+  }
+  
+  return final_orients;
+}
+
+int64_t SAWorker::getTotalHPWL() 
+{
+  updateNetHPWL(); 
+  int64_t total_hpwl = 0;
+  for (auto& [net, hpwl] : net_hpwl_) {
+    total_hpwl += hpwl;
+  }
+  return total_hpwl;
+}
+
+void SAWorker::reportDetails() {
+  // Report Current Iteration and Temperature
+  logger_->report("###########################################");
+  logger_->report("## Worker ID: {:<26} ##", worker_id_);
+  logger_->report("## Current Iteration: {:<18} ##", iter_);
+  
+  auto end_time = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double, std::milli> elapsed_time = 
+      end_time - iter_start_time_;
+  // Duration in seconds up to 3 decimal places
+  double elapsed_time_sec = elapsed_time.count() / 1000.0;
+  logger_->report("## Elapsed Time for Iteration: {:<9.3f} ##", 
+                  elapsed_time_sec);
+
+  // Report initialization time iter_start_time_ - start_time_
+  elapsed_time = iter_start_time_ - start_time_;
+  double init_time_sec = elapsed_time.count() / 1000.0;
+  logger_->report("## Initialization Time: {:<16.3f} ##", init_time_sec);
+
+  // Report Move Probs, Max Temps, Min Temp, Max Iter, Seed
+  logger_->report("## Move Probs: {:<4.2f} {:<4.2f} {:<15.2f} ##", 
+                  action_prob_[0], action_prob_[1], action_prob_[2]);
+  logger_->report("## Accepted Moves: {:<21} ##", accept_count_);
+  logger_->report("## Max Temps: {:<26.2f} ##", max_temp_);
+  logger_->report("## Current Temp: {:<23.2f} ##", temp_);
+  logger_->report("## Min Temp: {:<27.2f} ##", min_temp_);
+  logger_->report("## Max Iter: {:<27} ##", max_iter_);
+  logger_->report("## Seed: {:<31} ##", seed_);
+  
+  int64_t total_hpwl = getTotalHPWL();
+  auto block = opt_->getBlock();
+  odb::WireLengthEvaluator eval(block);
+  const double hpwl_legal = eval.hpwl();
+  logger_->report("legalized HPWL       {:10.1f} u",
+                  block->dbuToMicrons(hpwl_legal));
+  logger_->report("legalized HPWL       {:10.1f} u",
+                  block->dbuToMicrons(total_hpwl));
+  logger_->report("###########################################");
+}
+
+}  // namespace sa1d

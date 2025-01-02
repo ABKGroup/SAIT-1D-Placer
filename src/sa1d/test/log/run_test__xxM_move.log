@@ -1,0 +1,11 @@
+OpenROAD v2.0-17833-g4335db6ce 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7_tech_1x_201209.lef, created 24 layers, 9 vias
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7sc7p5t_27_L_1x_201211.lef, created 212 library cells
+[INFO ODB-0394] Duplicate site asap7sc7p5t in asap7sc7p5t_27_R_1x_201211 already seen in asap7sc7p5t_27_L_1x_201211
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7sc7p5t_27_R_1x_201211.lef, created 212 library cells
+[INFO ODB-0394] Duplicate site asap7sc7p5t in asap7sc7p5t_27_SL_1x_201211 already seen in asap7sc7p5t_27_L_1x_201211
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7sc7p5t_27_SL_1x_201211.lef, created 212 library cells
+Invalid testcase

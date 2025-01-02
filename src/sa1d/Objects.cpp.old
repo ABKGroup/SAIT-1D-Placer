@@ -1,0 +1,149 @@
+/////////////////////////////////////////////////////////////////////////////
+// Authors: Sayak Kundu (sakundu@ucsd.edu), Zhiang Wang (zhw033@ucsd.edu)
+//          Dooseok Yoon (d3yoon@ucsd.edu)
+// Copyright (c) 2024, The Regents of the University of California
+// All rights reserved.
+//
+// BSD 3-Clause License
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// * Redistributions of source code must retain the above copyright notice, this
+//   list of conditions and the following disclaimer.
+//
+// * Redistributions in binary form must reproduce the above copyright notice,
+//   this list of conditions and the following disclaimer in the documentation
+//   and/or other materials provided with the distribution.
+//
+// * Neither the name of the copyright holder nor the names of its
+//   contributors may be used to endorse or promote products derived from
+//   this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+///////////////////////////////////////////////////////////////////////////////
+
+#include "sa1d/Objects.h"
+
+namespace sa1d {
+
+using odb::dbBTerm;
+using odb::dbBPin;
+
+uint Cell::getWidth() const
+{
+  return master_->width_;
+}
+
+uint Cell::getHeight() const
+{
+  return master_->height_;
+}
+
+pair<int, int> Master::getPinLocation(int llx, int lly, dbMTerm* mterm,
+                                dbOrientType orient)
+{
+  int x = mterm_locs_[mterm].x();
+  int y = mterm_locs_[mterm].y();
+  int width = db_master_->getWidth();
+  int height = db_master_->getHeight();
+  switch (orient) {
+    case dbOrientType::R0:
+      return {llx + x, lly + y};
+    case dbOrientType::R90:
+      return {llx + y, lly + width - x};
+    case dbOrientType::R180:
+      return {llx + width - x, lly + height - y};
+    case dbOrientType::R270:
+      return {llx + height - y, lly + x};
+    case dbOrientType::MY:
+      return {llx + width - x, lly + y};
+    case dbOrientType::MYR90:
+      return {llx + y, lly + x};
+    case dbOrientType::MX:
+      return {llx + x, lly + height - y};
+    case dbOrientType::MXR90:
+      return {llx + height - y, lly + width - x};
+    default:
+      return {llx + x, lly + y};
+  }
+}
+
+void Net::updateBTerm()
+{
+  isBTerm_ = false;
+  bterm_box.mergeInit();
+  for (dbBTerm* bterm : db_net_->getBTerms()) {
+    for (dbBPin* bpin : bterm->getBPins()) {
+      odb::dbPlacementStatus status = bpin->getPlacementStatus();
+      if (status.isPlaced()) {
+        if (isBTerm_ == false) {
+          isBTerm_ = true;
+        }
+        Rect pin_bbox = bpin->getBBox();
+        int center_x = (pin_bbox.xMin() + pin_bbox.xMax()) / 2;
+        int center_y = (pin_bbox.yMin() + pin_bbox.yMax()) / 2;
+        Rect pin_center(center_x, center_y, center_x, center_y);
+        bterm_box.merge(pin_center);
+      }
+    }
+  }
+}
+
+int64_t Net::getHPWL(CellLocMap cell_loc_) const
+{
+  int64_t hpwl = 0;
+  Rect net_bbox;
+  net_bbox.mergeInit();
+  for ( auto [cell, mterm] : cells_ ) {
+    auto [cell_x, cell_y] = cell_loc_.at(cell).first;
+    auto orient = cell_loc_.at(cell).second;
+    auto pin_loc = cell->master_->getPinLocation(cell_x, cell_y, mterm, orient);
+    Rect pin_rect(pin_loc.first, pin_loc.second, pin_loc.first, pin_loc.second);
+    net_bbox.merge(pin_rect);
+  }
+  if (isBTerm_) {
+    net_bbox.merge(bterm_box);
+  }
+  hpwl = net_bbox.dx() + net_bbox.dy();
+  return hpwl;
+}
+
+int64_t Net::getDeltaHPWL(CellLocMap cell_loc_, CellLocMap moved_cells_) const
+{
+  int64_t hpwl = 0;
+  Rect net_bbox;
+  net_bbox.mergeInit();
+  int cell_x, cell_y;
+  dbOrientType orient;
+  for ( auto [cell, mterm] : cells_ ) {
+    // If cell is in moved_cells_, use the new location
+    if (moved_cells_.find(cell) != moved_cells_.end()) {
+      std::tie(cell_x, cell_y) = moved_cells_.at(cell).first;
+      orient = moved_cells_.at(cell).second;
+    } else {
+      std::tie(cell_x, cell_y) = cell_loc_.at(cell).first;
+      orient = cell_loc_.at(cell).second;
+    }
+    auto pin_loc = cell->master_->getPinLocation(cell_x, cell_y, mterm, orient);
+    Rect pin_rect(pin_loc.first, pin_loc.second, pin_loc.first, pin_loc.second);
+    net_bbox.merge(pin_rect);
+  }
+  if (isBTerm_) {
+    net_bbox.merge(bterm_box);
+  }
+  hpwl = net_bbox.dx() + net_bbox.dy();
+  return hpwl;
+}
+
+}  // namespace sa1d

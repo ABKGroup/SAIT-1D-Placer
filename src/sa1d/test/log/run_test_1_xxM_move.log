@@ -1,0 +1,68 @@
+OpenROAD v2.0-17833-g4335db6ce 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7_tech_1x_201209.lef, created 24 layers, 9 vias
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7sc7p5t_27_L_1x_201211.lef, created 212 library cells
+[INFO ODB-0394] Duplicate site asap7sc7p5t in asap7sc7p5t_27_R_1x_201211 already seen in asap7sc7p5t_27_L_1x_201211
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7sc7p5t_27_R_1x_201211.lef, created 212 library cells
+[INFO ODB-0394] Duplicate site asap7sc7p5t in asap7sc7p5t_27_SL_1x_201211 already seen in asap7sc7p5t_27_L_1x_201211
+[INFO ODB-0227] LEF file: /home/memzfs_projects/ANG2.0/shyeon/pdk/asap7/lef/asap7sc7p5t_27_SL_1x_201211.lef, created 212 library cells
+[INFO ODB-0127] Reading DEF file: /home/memzfs_projects/ANG2.0/d3yoon/1Dtest/1stTestInvs/ArtNet_place.def
+[INFO ODB-0128] Design: ArtNet
+[INFO ODB-0130]     Created 13 pins.
+[INFO ODB-0131]     Created 50 components and 270 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 100 connections.
+[INFO ODB-0133]     Created 59 nets and 170 connections.
+[INFO ODB-0134] Finished DEF file: /home/memzfs_projects/ANG2.0/d3yoon/1Dtest/1stTestInvs/ArtNet_place.def
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement          0.0 u
+average displacement        0.0 u
+max displacement            0.0 u
+original HPWL             290.7 u
+legalized HPWL            298.6 u
+delta HPWL                    3 %
+
+[INFO SA1D-0001] Running simulated annealing
+[INFO] Number of cells : 50
+[INFO] Number of nets : 59
+[INFO SA1D-0011] Imported the database
+[Params] num_workers = 1
+[Params] num_threads = 1
+Each worker will be assigned with a unique move probability vector !
+[Params] Move probability vector for worker 0 is : [ 0.490000 0.490000 0.020000 ]
+[Params] max_temp = 100.0
+[Params] max_iter = 5000
+[Params] move_budget = 100000
+[Params] num_move_per_iter = 20
+[Params] reset the cooling_rate to 0.9935735
+[Params] gwtw_iter = 1
+[Params] max_temp_derate_factor = 0.99
+[Params] top_k = 1
+[Params] sync_freq = 1.0
+[Params] seed = 1
+[Params] incremental_flag = false
+[INFO SA1D-0010] All SA parameters are valid
+[INFO] Worker_id = 0 Move Prob = [ 0.490000 0.490000 0.020000 ]
+[INFO] Norm HPWL = 809348
+Initialized workers ... 
+[INFO] The copied cnt for top vector = [ 1 ]
+[INFO] GWTW Iteration 0 starts ...
+[INFO] Set the max temperature to 100.0
+********************* the current results after iteration 0 *********************
+[INFO] worker_id = 0, HPWL = 265708
+********************* the current results after iteration 5000 *********************
+[INFO] worker_id = 0, HPWL = 265708
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement          0.0 u
+average displacement        0.0 u
+max displacement            0.0 u
+original HPWL             268.3 u
+legalized HPWL            282.4 u
+delta HPWL                    5 %
+
+[INFO] Running time:   1 seconds

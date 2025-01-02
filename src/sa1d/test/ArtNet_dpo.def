@@ -1,0 +1,791 @@
+VERSION 5.8 ;
+DIVIDERCHAR "/" ;
+BUSBITCHARS "[]" ;
+DESIGN ArtNet ;
+UNITS DISTANCE MICRONS 1000 ;
+PROPERTYDEFINITIONS
+DESIGN flow_implementation_stage STRING "place_opt" ;
+DESIGN FE_CORE_BOX_LL_X REAL 0.108 ;
+DESIGN FE_CORE_BOX_UR_X REAL 40.104 ;
+DESIGN FE_CORE_BOX_LL_Y REAL 0.108 ;
+DESIGN FE_CORE_BOX_UR_Y REAL 0.396 ;
+COMPONENTPIN designRuleWidth REAL ;
+END PROPERTYDEFINITIONS
+DIEAREA ( 0 0 ) ( 40212 504 ) ;
+ROW CORE_ROW_0 asap7sc7p5t 108 108 FS DO 740 BY 1 STEP 54 0 ;
+TRACKS X 116 DO 502 STEP 80 LAYER Pad ;
+TRACKS Y 116 DO 5 STEP 80 LAYER Pad ;
+TRACKS X 116 DO 502 STEP 80 LAYER M9 ;
+TRACKS Y 116 DO 5 STEP 80 LAYER M9 ;
+TRACKS X 116 DO 502 STEP 80 LAYER M8 ;
+TRACKS Y 116 DO 5 STEP 80 LAYER M8 ;
+TRACKS X 36 DO 628 STEP 64 LAYER M7 ;
+TRACKS Y 36 DO 8 STEP 64 LAYER M7 ;
+TRACKS X 60 DO 837 STEP 48 LAYER M6 ;
+TRACKS Y 36 DO 8 STEP 64 LAYER M6 ;
+TRACKS X 60 DO 837 STEP 48 LAYER M5 ;
+TRACKS Y 63 DO 10 STEP 48 LAYER M5 ;
+TRACKS X 36 DO 1116 STEP 36 LAYER M4 ;
+TRACKS Y 63 DO 10 STEP 48 LAYER M4 ;
+TRACKS X 36 DO 1116 STEP 36 LAYER M3 ;
+TRACKS Y 36 DO 13 STEP 36 LAYER M3 ;
+TRACKS X 36 DO 1116 STEP 36 LAYER M2 ;
+TRACKS Y 153 DO 2 STEP 270 LAYER M2 ;
+TRACKS Y 189 DO 2 STEP 270 LAYER M2 ;
+TRACKS Y 225 DO 2 STEP 270 LAYER M2 ;
+TRACKS Y 261 DO 2 STEP 270 LAYER M2 ;
+TRACKS Y 297 DO 2 STEP 270 LAYER M2 ;
+TRACKS Y 333 DO 2 STEP 270 LAYER M2 ;
+TRACKS Y 108 DO 3 STEP 270 LAYER M2 ;
+TRACKS X 36 DO 1116 STEP 36 LAYER M1 ;
+TRACKS Y 36 DO 13 STEP 36 LAYER M1 ;
+GCELLGRID X 39996 DO 2 STEP 216 ;
+GCELLGRID X 36 DO 112 STEP 360 ;
+GCELLGRID X 0 DO 2 STEP 36 ;
+GCELLGRID Y 153 DO 2 STEP 351 ;
+GCELLGRID Y 153 DO 1 STEP 2700 ;
+GCELLGRID Y 0 DO 2 STEP 153 ;
+VIAS 2 ;
+    - NR_VIA3_PH_V + VIARULE M4_M3widePWR0p864 + CUTSIZE 18 24  + LAYERS M3 V3 M4  + CUTSPACING 0 0  + ENCLOSURE 0 0 11 0  ;
+    - M3_M2widePWR0p936_1 + VIARULE M3_M2widePWR0p936 + CUTSIZE 234 18  + LAYERS M2 V2 M3  + CUTSPACING 43 18  + ENCLOSURE 0 0 0 0  ;
+END VIAS
+COMPONENTS 50 ;
+    - inst_0 DFFLQNx2_ASAP7_75t_L + PLACED ( 7884 108 ) FS ;
+    - inst_1 DHLx2_ASAP7_75t_L + PLACED ( 12204 108 ) FS ;
+    - inst_10 MAJIxp5_ASAP7_75t_L + PLACED ( 13068 108 ) FS ;
+    - inst_11 INVx3_ASAP7_75t_SL + PLACED ( 14958 108 ) FS ;
+    - inst_12 INVx5_ASAP7_75t_R + PLACED ( 18954 108 ) FS ;
+    - inst_13 MAJIxp5_ASAP7_75t_SL + PLACED ( 15228 108 ) FS ;
+    - inst_14 OAI21xp5_ASAP7_75t_L + PLACED ( 18144 108 ) FS ;
+    - inst_15 NAND2x2_ASAP7_75t_SL + PLACED ( 18414 108 ) FS ;
+    - inst_16 NOR2x1p5_ASAP7_75t_R + PLACED ( 16146 108 ) FS ;
+    - inst_17 MAJx3_ASAP7_75t_L + PLACED ( 15606 108 ) FS ;
+    - inst_18 DFFHQNx1_ASAP7_75t_L + PLACED ( 5076 108 ) FS ;
+    - inst_19 DHLx3_ASAP7_75t_R + PLACED ( 2106 108 ) FS ;
+    - inst_2 XNOR2xp5_ASAP7_75t_L + PLACED ( 26406 108 ) FS ;
+    - inst_20 XNOR2x2_ASAP7_75t_SL + PLACED ( 9018 108 ) FS ;
+    - inst_21 AOI22xp5_ASAP7_75t_SL + PLACED ( 9612 108 ) FS ;
+    - inst_22 NAND2x1_ASAP7_75t_L + PLACED ( 11124 108 ) FS ;
+    - inst_23 NAND2x1_ASAP7_75t_R + PLACED ( 10800 108 ) FS ;
+    - inst_24 OAI21xp33_ASAP7_75t_R + PLACED ( 10530 108 ) FS ;
+    - inst_25 NAND3x1_ASAP7_75t_R + PLACED ( 9936 108 ) FS ;
+    - inst_26 BUFx24_ASAP7_75t_SL + PLACED ( 27216 108 ) FS ;
+    - inst_27 NAND2xp67_ASAP7_75t_SL + PLACED ( 26892 108 ) FS ;
+    - inst_28 OA22x2_ASAP7_75t_SL + PLACED ( 14418 108 ) FS ;
+    - inst_29 NAND3x1_ASAP7_75t_SL + PLACED ( 13824 108 ) FS ;
+    - inst_3 BUFx6f_ASAP7_75t_SL + PLACED ( 17604 108 ) FS ;
+    - inst_30 AOI22xp33_ASAP7_75t_SL + PLACED ( 11880 108 ) FS ;
+    - inst_31 OAI33xp33_ASAP7_75t_L + PLACED ( 11448 108 ) FS ;
+    - inst_32 INVx5_ASAP7_75t_R + PLACED ( 13446 108 ) FS ;
+    - inst_33 XNOR2xp5_ASAP7_75t_L + PLACED ( 4590 108 ) FS ;
+    - inst_34 HB2xp67_ASAP7_75t_R + PLACED ( 26136 108 ) FS ;
+    - inst_35 NOR2xp33_ASAP7_75t_R + PLACED ( 25920 108 ) FS ;
+    - inst_36 XOR2x1_ASAP7_75t_R + PLACED ( 28836 108 ) FS ;
+    - inst_37 FAx1_ASAP7_75t_L + PLACED ( 24084 108 ) FS ;
+    - inst_38 NOR3x2_ASAP7_75t_L + PLACED ( 24840 108 ) FS ;
+    - inst_39 NOR2xp33_ASAP7_75t_R + PLACED ( 22680 108 ) FS ;
+    - inst_4 BUFx16f_ASAP7_75t_R + PLACED ( 22896 108 ) FS ;
+    - inst_40 INVx3_ASAP7_75t_L + PLACED ( 22410 108 ) FS ;
+    - inst_41 CKINVDCx6p67_ASAP7_75t_R + PLACED ( 108 108 ) FS ;
+    - inst_42 OR2x6_ASAP7_75t_SL + PLACED ( 16578 108 ) FS ;
+    - inst_43 OR2x2_ASAP7_75t_SL + PLACED ( 7560 108 ) FS ;
+    - inst_44 OA222x2_ASAP7_75t_L + PLACED ( 6912 108 ) FS ;
+    - inst_45 NAND4xp75_ASAP7_75t_SL + PLACED ( 6156 108 ) FS ;
+    - inst_46 AND2x4_ASAP7_75t_R + PLACED ( 3672 108 ) FS ;
+    - inst_47 OR3x2_ASAP7_75t_SL + PLACED ( 4212 108 ) FS ;
+    - inst_48 XOR2x1_ASAP7_75t_SL + PLACED ( 3024 108 ) FS ;
+    - inst_49 INVx11_ASAP7_75t_SL + PLACED ( 1404 108 ) FS ;
+    - inst_5 AO21x2_ASAP7_75t_R + PLACED ( 17226 108 ) FS ;
+    - inst_6 MAJx2_ASAP7_75t_L + PLACED ( 21924 108 ) FS ;
+    - inst_7 NAND2x2_ASAP7_75t_SL + PLACED ( 21384 108 ) FS ;
+    - inst_8 AO22x2_ASAP7_75t_R + PLACED ( 20844 108 ) FS ;
+    - inst_9 CKINVDCx14_ASAP7_75t_R + PLACED ( 19332 108 ) FS ;
+END COMPONENTS
+PINS 13 ;
+    - clk + NET clk + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 10008 430 ) N ;
+    - net_0 + NET net_0 + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 34992 430 ) N ;
+    - net_1 + NET net_1 + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 35064 430 ) N ;
+    - net_10 + NET net_10 + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 7452 430 ) N ;
+    - net_2 + NET net_2 + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 30024 430 ) N ;
+    - net_3 + NET net_3 + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 33192 430 ) N ;
+    - net_4 + NET net_4 + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 35424 430 ) N ;
+    - net_5 + NET net_5 + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 36396 430 ) N ;
+    - net_6 + NET net_6 + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 18000 430 ) N ;
+    - net_7 + NET net_7 + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 11376 430 ) N ;
+    - net_8 + NET net_8 + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 13608 430 ) N ;
+    - net_9 + NET net_9 + DIRECTION OUTPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 18396 430 ) N ;
+    - rst + NET rst + DIRECTION INPUT + USE SIGNAL
+      + PORT
+        + LAYER M3 ( -9 -74 ) ( 9 74 )
+        + PLACED ( 20088 430 ) N ;
+END PINS
+SPECIALNETS 2 ;
+    - VDD ( * VDD ) + USE POWER
+      + ROUTED M2 18 + SHAPE FOLLOWPIN ( 108 108 ) ( 40068 108 )
+      NEW M1 18 + SHAPE FOLLOWPIN ( 108 108 ) ( 40068 108 )
+      NEW M3 234 + SHAPE STRIPE ( 432 99 ) ( 432 387 )
+      NEW M2 0 + SHAPE STRIPE ( 432 108 ) M3_M2widePWR0p936_1 ;
+    - VSS ( * VSS ) + USE GROUND
+      + ROUTED M2 18 + SHAPE FOLLOWPIN ( 108 378 ) ( 40068 378 )
+      NEW M1 18 + SHAPE FOLLOWPIN ( 108 378 ) ( 40068 378 )
+      NEW M3 234 + SHAPE STRIPE ( 1008 99 ) ( 1008 387 )
+      NEW M2 0 + SHAPE STRIPE ( 1008 378 ) M3_M2widePWR0p936_1 ;
+END SPECIALNETS
+NETS 59 ;
+    - clk ( PIN clk ) ( inst_19 CLK ) ( inst_18 CLK ) ( inst_1 CLK ) ( inst_0 CLK ) + USE SIGNAL
+      + ROUTED M3 ( 10404 261 ) ( * 297 ) VIA23
+      NEW M2 ( 10368 261 ) ( 10404 * ) VIA23
+      NEW M2 ( 10008 495 ) ( 10368 * ) VIA23
+      NEW M3 ( 12816 261 ) ( * 297 ) VIA23
+      NEW M2 ( 10404 261 ) ( 12816 * ) VIA23
+      NEW M2 ( 8352 297 ) ( 8496 * ) VIA12
+      NEW M3 ( 10368 261 ) ( * 495 )
+      NEW M3 ( 8496 297 ) ( * 495 ) VIA23
+      NEW M2 ( 8496 495 ) ( 10008 * ) VIA23
+      NEW M3 ( 10008 495 ) ( * 504 )
+      NEW M2 ( 8352 297 ) VIA12
+      NEW M2 ( 12816 297 ) VIA12
+      NEW M2 ( 10404 297 ) VIA12
+      NEW M3 ( 10368 261 ) VIA23
+      NEW M3 ( 8496 297 ) VIA23 ;
+    - net_0 ( PIN net_0 ) ( inst_36 A ) + USE SIGNAL
+      + ROUTED M2 ( 34974 333 ) ( 34992 * ) VIA23
+      NEW M3 ( 34992 333 ) ( * 504 ) ;
+    - net_1 ( PIN net_1 ) ( inst_36 B ) + USE SIGNAL
+      + ROUTED M2 ( 35064 297 ) ( 35082 * )
+      NEW M3 ( 35064 297 ) ( * 504 )
+      NEW M3 ( 35064 297 ) VIA23 ;
+    - net_10 ( PIN net_10 ) ( inst_44 C2 ) ( inst_43 B ) ( inst_0 QN ) + USE SIGNAL
+      + ROUTED M2 ( 6048 297 ) ( 6066 * ) VIA12
+      NEW M2 ( 6804 333 ) ( 6822 * ) VIA12
+      NEW M3 ( 7452 459 ) ( * 504 )
+      NEW M3 ( 6048 297 ) ( * 459 ) VIA23
+      NEW M3 ( 6804 333 ) ( * 459 ) VIA23
+      NEW M2 ( 6048 459 ) ( 6804 * )
+      NEW M2 ( 6804 459 ) ( 7452 * ) VIA23
+      NEW M2 ( 7452 459 ) ( 9432 * ) VIA23
+      NEW M3 ( 9432 333 ) ( * 459 )
+      NEW M3 ( 6048 297 ) VIA23
+      NEW M3 ( 6804 333 ) VIA23
+      NEW M3 ( 9432 333 ) VIA23
+      NEW M2 ( 9432 333 ) VIA12 ;
+    - net_11 ( inst_25 B ) ( inst_24 A1 ) ( inst_21 A1 ) ( inst_20 Y ) ( inst_10 A ) + USE SIGNAL
+      + ROUTED M2 ( 17523 225 ) ( * 243 ) VIA12
+      NEW M3 ( 15840 261 ) ( * 333 ) VIA23
+      NEW M3 ( 14724 261 ) ( * 297 ) VIA23
+      NEW M2 ( 15012 261 ) ( 15840 * ) VIA23
+      NEW M2 ( 17523 225 ) ( 17532 * ) VIA23
+      NEW M3 ( 17532 225 ) ( * 261 ) VIA23
+      NEW M2 ( 16152 261 ) ( 17532 * )
+      NEW M2 ( 15840 261 ) ( 16152 * ) VIA12
+      NEW M2 ( 14724 261 ) ( 15012 * ) VIA23
+      NEW M3 ( 15012 261 ) ( * 333 ) VIA23
+      NEW M2 ( 15840 333 ) VIA12
+      NEW M2 ( 14724 297 ) VIA12
+      NEW M3 ( 14724 261 ) VIA23
+      NEW M2 ( 15012 333 ) VIA12 ;
+    - net_12 ( inst_29 C ) ( inst_28 A2 ) ( inst_13 A ) ( inst_12 Y ) + USE SIGNAL
+      + ROUTED M2 ( 18441 225 ) ( * 243 ) VIA12
+      NEW M2 ( 18441 225 ) ( 22502 * ) VIA12
+      NEW M2 ( 22502 225 ) ( 22923 * ) VIA12
+      NEW M2 ( 22923 225 ) ( 24228 * ) VIA23
+      NEW M3 ( 24228 225 ) ( * 333 ) VIA23
+      NEW M2 ( 24228 333 ) ( 24246 * ) VIA12 ;
+    - net_13 ( inst_29 B ) ( inst_28 A1 ) ( inst_14 A1 ) ( inst_8 B1 ) ( inst_7 B ) ( inst_5 Y ) + USE SIGNAL
+      + ROUTED M3 ( 22284 189 ) ( * 261 ) VIA23
+      NEW M3 ( 22860 189 ) ( * 225 ) VIA23
+      NEW M3 ( 23148 189 ) ( * 297 ) VIA23
+      NEW M2 ( 25956 225 ) ( 28260 * ) VIA23
+      NEW M2 ( 22284 261 ) ( 22296 * ) VIA12
+      NEW M2 ( 22860 225 ) ( 22869 * ) VIA12
+      NEW M2 ( 22284 189 ) ( 22860 * ) VIA23
+      NEW M2 ( 22860 189 ) ( 23148 * ) VIA23
+      NEW M2 ( 23148 189 ) ( 25488 * ) VIA23
+      NEW M2 ( 28260 297 ) ( 28782 * ) VIA12
+      NEW M3 ( 25488 189 ) ( * 225 ) VIA23
+      NEW M3 ( 28260 225 ) ( * 297 ) VIA23
+      NEW M2 ( 25488 225 ) ( 25956 * ) VIA23
+      NEW M3 ( 25956 225 ) ( * 333 ) VIA23
+      NEW M2 ( 28260 297 ) VIA12
+      NEW M2 ( 23148 297 ) VIA12
+      NEW M3 ( 22284 189 ) VIA23
+      NEW M2 ( 25956 333 ) VIA12 ;
+    - net_14 ( inst_37 A ) ( inst_36 Y ) ( inst_35 B ) ( inst_31 A2 ) ( inst_30 A1 ) ( inst_22 A ) ( inst_10 B ) + USE SIGNAL
+      + ROUTED M2 ( 16740 297 ) ( 16758 * ) VIA12
+      NEW M2 ( 17136 333 ) ( 17154 * ) VIA12
+      NEW M2 ( 33120 189 ) ( 33121 * )
+      NEW M3 ( 35388 333 ) ( * 459 ) VIA23
+      NEW M2 ( 17154 333 ) ( 17262 * ) VIA12
+      NEW M3 ( 14076 297 ) ( * 351 ) VIA34
+      NEW M3 ( 16740 297 ) ( * 351 ) VIA34
+      NEW M3 ( 17136 333 ) ( * 351 ) VIA34
+      NEW M4 ( 14076 351 ) ( 16740 * )
+      NEW M4 ( 16740 351 ) ( 17136 * )
+      NEW M4 ( 17136 351 ) ( 33120 * ) VIA34
+      NEW M3 ( 33120 189 ) ( * 351 )
+      NEW M3 ( 33120 351 ) ( * 459 ) VIA23
+      NEW M3 ( 34560 297 ) ( * 459 ) VIA23
+      NEW M2 ( 33120 459 ) ( 34560 * )
+      NEW M2 ( 34560 459 ) ( 35388 * )
+      NEW M2 ( 35388 333 ) ( 35406 * ) VIA12
+      NEW M2 ( 14076 297 ) VIA12
+      NEW M2 ( 34560 297 ) VIA12
+      NEW M3 ( 14076 297 ) VIA23
+      NEW M3 ( 16740 297 ) VIA23
+      NEW M3 ( 17136 333 ) VIA23
+      NEW M3 ( 33120 189 ) VIA23
+      NEW M3 ( 34560 297 ) VIA23
+      NEW M3 ( 35388 333 ) VIA23 ;
+    - net_15 ( inst_42 B ) ( inst_6 B ) ( inst_3 A ) ( inst_2 Y ) + USE SIGNAL
+      + ROUTED M2 ( 27351 189 ) ( * 207 ) VIA12
+      NEW M3 ( 26748 189 ) ( * 333 ) VIA23
+      NEW M2 ( 30024 225 ) ( 30027 * )
+      NEW M2 ( 26748 189 ) ( 27351 * )
+      NEW M2 ( 27351 189 ) ( 27360 * ) VIA23
+      NEW M3 ( 27360 189 ) ( * 399 ) VIA34
+      NEW M2 ( 30027 225 ) ( * 243 ) VIA12
+      NEW M4 ( 27360 399 ) ( 30024 * ) VIA34
+      NEW M3 ( 30024 225 ) ( * 399 )
+      NEW M3 ( 30024 399 ) ( * 423 ) VIA23
+      NEW M2 ( 30024 423 ) ( 35640 * ) VIA23
+      NEW M3 ( 35640 333 ) ( * 423 )
+      NEW M2 ( 26748 333 ) VIA12
+      NEW M3 ( 26748 189 ) VIA23
+      NEW M3 ( 30024 225 ) VIA23
+      NEW M3 ( 35640 333 ) VIA23
+      NEW M2 ( 35640 333 ) VIA12 ;
+    - net_16 ( inst_42 A ) ( inst_14 A2 ) ( inst_6 C ) ( inst_5 A1 ) ( inst_4 Y ) + USE SIGNAL
+      + ROUTED M2 ( 29943 225 ) ( * 243 ) VIA12
+      NEW M2 ( 23247 224 ) ( * 225 )
+      NEW M2 ( 23247 225 ) ( 23256 * ) VIA23
+      NEW M3 ( 23256 225 ) ( * 333 ) VIA23
+      NEW M2 ( 29943 225 ) ( 29952 * ) VIA23
+      NEW M3 ( 27396 297 ) ( * 333 ) VIA23
+      NEW M2 ( 23256 333 ) ( 26208 * ) VIA12
+      NEW M3 ( 29952 225 ) ( * 333 ) VIA23
+      NEW M2 ( 26208 333 ) ( 27396 * )
+      NEW M2 ( 27396 333 ) ( 29952 * )
+      NEW M2 ( 29952 333 ) ( 33588 * ) VIA12
+      NEW M2 ( 23247 224 ) VIA12
+      NEW M2 ( 27396 297 ) VIA12
+      NEW M3 ( 27396 297 ) VIA23 ;
+    - net_17 ( inst_15 B ) ( inst_9 Y ) + USE SIGNAL
+      + ROUTED M2 ( 23580 297 ) ( 23598 * ) VIA12
+      NEW M3 ( 24444 297 ) ( * 423 ) VIA23
+      NEW M3 ( 23580 297 ) ( * 423 ) VIA23
+      NEW M2 ( 23580 423 ) ( 24444 * )
+      NEW M2 ( 24444 297 ) ( 24462 * ) VIA12
+      NEW M3 ( 23580 297 ) VIA23
+      NEW M3 ( 24444 297 ) VIA23 ;
+    - net_18 ( inst_12 A ) ( inst_9 A ) ( inst_8 Y ) + USE SIGNAL
+      + ROUTED M3 ( 24300 297 ) ( * 333 ) VIA23
+      NEW M2 ( 24318 333 ) ( 24534 * ) VIA12
+      NEW M2 ( 24300 333 ) ( 24318 * ) VIA12
+      NEW M2 ( 24300 297 ) ( 28080 * ) VIA23
+      NEW M3 ( 28080 297 ) ( * 333 ) VIA23
+      NEW M3 ( 24300 297 ) VIA23
+      NEW M2 ( 28080 333 ) VIA12 ;
+    - net_19 ( inst_5 A2 ) ( inst_3 Y ) + USE SIGNAL
+      + ROUTED M3 ( 26100 297 ) ( * 423 ) VIA23
+      NEW M2 ( 26100 423 ) ( 26568 * ) VIA23
+      NEW M3 ( 26568 333 ) ( * 423 )
+      NEW M2 ( 26100 297 ) VIA12
+      NEW M3 ( 26100 297 ) VIA23
+      NEW M3 ( 26568 333 ) VIA23
+      NEW M2 ( 26568 333 ) VIA12 ;
+    - net_2 ( PIN net_2 ) ( inst_38 A ) ( inst_8 B2 ) ( inst_6 A ) + USE SIGNAL
+      + ROUTED M2 ( 30096 225 ) ( 30105 * )
+      NEW M2 ( 30096 297 ) ( 31608 * )
+      NEW M2 ( 30024 459 ) ( 30096 * ) VIA23
+      NEW M2 ( 30105 225 ) ( * 243 ) VIA12
+      NEW M3 ( 30096 225 ) ( * 297 ) VIA23
+      NEW M3 ( 30096 297 ) ( * 459 )
+      NEW M3 ( 28332 297 ) ( * 459 ) VIA23
+      NEW M2 ( 28332 459 ) ( 30024 * ) VIA23
+      NEW M3 ( 30024 459 ) ( * 504 )
+      NEW M2 ( 28332 297 ) VIA12
+      NEW M3 ( 30096 225 ) VIA23
+      NEW M3 ( 28332 297 ) VIA23 ;
+    - net_20 ( inst_8 A2 ) ( inst_7 A ) ( inst_6 Y ) + USE SIGNAL
+      + ROUTED M2 ( 28836 222 ) ( * 225 ) VIA23
+      NEW M3 ( 28836 225 ) ( * 297 ) VIA23
+      NEW M2 ( 28404 297 ) ( 28836 * )
+      NEW M2 ( 28836 297 ) ( 29736 * ) VIA23
+      NEW M3 ( 29736 297 ) ( * 333 ) VIA23
+      NEW M2 ( 29736 333 ) ( 29754 * ) VIA12
+      NEW M2 ( 28836 222 ) VIA12
+      NEW M2 ( 28404 297 ) VIA12 ;
+    - net_21 ( inst_8 A1 ) ( inst_7 Y ) + USE SIGNAL
+      + ROUTED M3 ( 28476 297 ) ( * 333 ) VIA23
+      NEW M2 ( 28476 297 ) ( 28602 * ) VIA12
+      NEW M2 ( 28476 333 ) VIA12
+      NEW M3 ( 28476 297 ) VIA23 ;
+    - net_22 ( inst_15 A ) ( inst_14 Y ) + USE SIGNAL
+      + ROUTED M2 ( 23652 222 ) ( * 225 ) VIA23
+      NEW M3 ( 23652 225 ) ( * 297 ) VIA23
+      NEW M2 ( 23364 297 ) ( 23652 * )
+      NEW M2 ( 23652 222 ) VIA12
+      NEW M2 ( 23364 297 ) VIA12 ;
+    - net_23 ( inst_13 B ) ( inst_11 Y ) + USE SIGNAL
+      + ROUTED M2 ( 18036 333 ) ( 18180 * ) VIA12
+      NEW M2 ( 18036 333 ) VIA12 ;
+    - net_24 ( inst_17 B ) ( inst_16 A ) ( inst_13 Y ) + USE SIGNAL
+      + ROUTED M2 ( 18900 225 ) ( 18903 * )
+      NEW M2 ( 18903 225 ) ( * 243 ) VIA12
+      NEW M3 ( 18900 225 ) ( * 333 ) VIA23
+      NEW M2 ( 18900 333 ) ( 19098 * ) VIA12
+      NEW M2 ( 18504 333 ) ( 18900 * )
+      NEW M3 ( 18504 297 ) ( * 333 ) VIA23
+      NEW M3 ( 18900 225 ) VIA23
+      NEW M3 ( 18504 297 ) VIA23
+      NEW M2 ( 18504 297 ) VIA12 ;
+    - net_25 ( inst_17 A ) ( inst_16 Y ) + USE SIGNAL
+      + ROUTED M2 ( 18972 225 ) ( 18981 * )
+      NEW M2 ( 18981 225 ) ( * 243 ) VIA12
+      NEW M3 ( 18972 225 ) ( * 261 ) VIA23
+      NEW M2 ( 18972 261 ) ( 19260 * ) VIA23
+      NEW M3 ( 19260 261 ) ( * 333 ) VIA23
+      NEW M2 ( 19260 333 ) ( 19278 * ) VIA12
+      NEW M3 ( 18972 225 ) VIA23 ;
+    - net_26 ( inst_17 C ) ( inst_16 B ) ( inst_15 Y ) + USE SIGNAL
+      + ROUTED M2 ( 18819 225 ) ( * 243 ) VIA12
+      NEW M2 ( 18819 225 ) ( 18828 * ) VIA23
+      NEW M3 ( 18828 225 ) ( * 297 ) VIA23
+      NEW M2 ( 18828 297 ) ( 19206 * ) VIA12
+      NEW M2 ( 19206 297 ) ( 23418 * ) VIA12 ;
+    - net_27 ( inst_45 B ) ( inst_44 A1 ) ( inst_33 B ) ( inst_31 Y ) + USE SIGNAL
+      + ROUTED M3 ( 5328 189 ) ( * 297 ) VIA23
+      NEW M3 ( 6444 189 ) ( * 225 ) VIA23
+      NEW M3 ( 6984 255 ) ( * 297 ) VIA23
+      NEW M2 ( 5328 297 ) ( 5346 * ) VIA12
+      NEW M2 ( 6444 225 ) ( 6453 * ) VIA12
+      NEW M2 ( 5328 189 ) ( 6444 * ) VIA23
+      NEW M2 ( 6444 189 ) ( 6984 * ) VIA23
+      NEW M2 ( 6984 297 ) ( 7002 * ) VIA12
+      NEW M3 ( 6984 189 ) ( * 255 ) VIA34
+      NEW M4 ( 6984 255 ) ( 16488 * ) VIA34
+      NEW M3 ( 16488 255 ) ( * 297 ) VIA23
+      NEW M2 ( 16488 297 ) ( 16506 * ) VIA12
+      NEW M3 ( 5328 189 ) VIA23 ;
+    - net_28 ( inst_48 A ) ( inst_47 Y ) ( inst_21 B1 ) ( inst_20 B ) + USE SIGNAL
+      + ROUTED M2 ( 15192 225 ) ( 15201 * )
+      NEW M4 ( 14688 303 ) ( 15192 * ) VIA34
+      NEW M3 ( 3672 333 ) ( * 423 ) VIA23
+      NEW M2 ( 15201 221 ) ( * 225 )
+      NEW M3 ( 15624 297 ) ( * 303 ) VIA34
+      NEW M3 ( 15192 225 ) ( * 303 )
+      NEW M4 ( 15192 303 ) ( 15624 * )
+      NEW M3 ( 14688 303 ) ( * 423 ) VIA23
+      NEW M3 ( 4392 333 ) ( * 423 ) VIA23
+      NEW M2 ( 4392 423 ) ( 14688 * )
+      NEW M2 ( 3672 423 ) ( 4392 * )
+      NEW M2 ( 3672 333 ) ( 3690 * ) VIA12
+      NEW M2 ( 15201 221 ) VIA12
+      NEW M2 ( 15624 297 ) VIA12
+      NEW M3 ( 15624 297 ) VIA23
+      NEW M3 ( 15192 225 ) VIA23
+      NEW M4 ( 14688 303 ) VIA34
+      NEW M3 ( 4392 333 ) VIA23
+      NEW M3 ( 3672 333 ) VIA23 ;
+    - net_29 ( inst_47 B ) ( inst_46 A ) ( inst_33 A ) ( inst_32 Y ) ( inst_31 B3 ) ( inst_23 B ) ( inst_21 B2 ) + USE SIGNAL
+      + ROUTED M2 ( 3528 297 ) ( 3546 * ) VIA12
+      NEW M2 ( 14436 225 ) ( 14445 * ) VIA12
+      NEW M3 ( 16560 159 ) ( * 225 ) VIA23
+      NEW M3 ( 3528 297 ) ( * 333 ) VIA23
+      NEW M2 ( 3330 333 ) ( 3528 * )
+      NEW M3 ( 14436 225 ) ( * 333 ) VIA23
+      NEW M2 ( 3528 333 ) ( 6930 * ) VIA12
+      NEW M3 ( 15696 297 ) ( * 333 ) VIA23
+      NEW M2 ( 6930 333 ) ( 14436 * )
+      NEW M2 ( 14436 333 ) ( 15696 * )
+      NEW M2 ( 15696 333 ) ( 16560 * ) VIA23
+      NEW M2 ( 16551 225 ) ( 16560 * )
+      NEW M3 ( 16560 225 ) ( * 333 )
+      NEW M4 ( 16560 159 ) ( 19764 * ) VIA34
+      NEW M3 ( 19764 159 ) ( * 333 ) VIA23
+      NEW M2 ( 3330 333 ) VIA12
+      NEW M2 ( 15696 297 ) VIA12
+      NEW M2 ( 16551 225 ) VIA12
+      NEW M3 ( 3528 297 ) VIA23
+      NEW M3 ( 14436 225 ) VIA23
+      NEW M3 ( 15696 297 ) VIA23
+      NEW M4 ( 16560 159 ) VIA34
+      NEW M2 ( 19764 333 ) VIA12 ;
+    - net_3 ( PIN net_3 ) ( inst_37 CI ) ( inst_4 A ) + USE SIGNAL
+      + ROUTED M2 ( 33192 333 ) ( 33300 * ) VIA12
+      NEW M2 ( 33081 261 ) ( 33084 * ) VIA23
+      NEW M3 ( 33084 261 ) ( * 333 ) VIA23
+      NEW M2 ( 33084 333 ) ( 33192 * ) VIA23
+      NEW M3 ( 33192 333 ) ( * 504 ) ;
+    - net_30 ( inst_39 A ) ( inst_38 Y ) ( inst_21 A2 ) ( inst_20 A ) + USE SIGNAL
+      + ROUTED M5 ( 15708 228 ) ( * 297 ) VIA45
+      NEW M5 ( 30780 225 ) ( * 228 ) VIA56
+      NEW M3 ( 30780 225 ) ( * 333 ) VIA23
+      NEW M2 ( 15417 218 ) ( * 225 )
+      NEW M2 ( 15417 225 ) ( 15420 * ) VIA23
+      NEW M2 ( 15708 297 ) ( 15732 * ) VIA12
+      NEW M5 ( 15420 225 ) ( * 228 ) VIA56
+      NEW M6 ( 15420 228 ) ( 15708 * ) VIA56
+      NEW M6 ( 15708 228 ) ( 30780 * )
+      NEW M2 ( 30780 333 ) ( 30798 * ) VIA12
+      NEW M2 ( 30780 225 ) ( 31464 * ) VIA23
+      NEW M3 ( 31464 225 ) ( * 333 ) VIA23
+      NEW M2 ( 15417 218 ) VIA12
+      NEW M4 ( 15420 225 ) NR_VIA3_PH_V
+      NEW M3 ( 15708 297 ) VIA23
+      NEW M5 ( 15420 225 ) VIA45
+      NEW M4 ( 15708 297 ) NR_VIA3_PH_V
+      NEW M5 ( 30780 225 ) VIA45
+      NEW M4 ( 30780 225 ) NR_VIA3_PH_V
+      NEW M3 ( 30780 225 ) VIA23
+      NEW M2 ( 31464 333 ) VIA12 ;
+    - net_31 ( inst_44 C1 ) ( inst_43 A ) ( inst_42 Y ) ( inst_28 B2 ) + USE SIGNAL
+      + ROUTED M2 ( 6120 297 ) ( 6138 * ) VIA12
+      NEW M2 ( 6732 297 ) ( 6750 * ) VIA12
+      NEW M5 ( 6732 292 ) ( * 303 ) VIA45
+      NEW M3 ( 22968 261 ) ( * 297 ) VIA23
+      NEW M3 ( 6120 297 ) ( * 303 ) VIA34
+      NEW M3 ( 6732 297 ) ( * 303 ) NR_VIA3_PH_V
+      NEW M4 ( 6120 303 ) ( 6732 * )
+      NEW M6 ( 6732 292 ) ( 22956 * ) VIA56
+      NEW M5 ( 22956 292 ) ( * 297 ) VIA45
+      NEW M2 ( 22956 297 ) ( 22968 * ) VIA12
+      NEW M2 ( 22968 261 ) ( 27072 * ) VIA23
+      NEW M3 ( 27072 261 ) ( * 333 ) VIA23
+      NEW M3 ( 6120 297 ) VIA23
+      NEW M3 ( 6732 297 ) VIA23
+      NEW M6 ( 6732 292 ) VIA56
+      NEW M4 ( 22956 297 ) NR_VIA3_PH_V
+      NEW M3 ( 22956 297 ) VIA23
+      NEW M3 ( 22968 261 ) VIA23
+      NEW M2 ( 27072 333 ) VIA12 ;
+    - net_32 ( inst_23 A ) ( inst_22 Y ) + USE SIGNAL
+      + ROUTED M2 ( 14328 297 ) ( 14652 * ) VIA12
+      NEW M2 ( 14328 297 ) VIA12 ;
+    - net_33 ( inst_27 A ) ( inst_26 Y ) + USE SIGNAL
+      + ROUTED M2 ( 36360 297 ) ( 37260 * ) VIA23
+      NEW M3 ( 37260 297 ) ( * 333 ) VIA23
+      NEW M2 ( 36360 297 ) VIA12
+      NEW M2 ( 37260 333 ) VIA12 ;
+    - net_34 ( inst_31 B2 ) ( inst_30 B2 ) ( inst_28 B1 ) ( inst_27 Y ) + USE SIGNAL
+      + ROUTED M2 ( 16596 225 ) ( 16605 * ) VIA12
+      NEW M2 ( 17028 297 ) ( 17046 * ) VIA12
+      NEW M3 ( 16596 225 ) ( * 303 ) VIA34
+      NEW M3 ( 17028 297 ) ( * 303 ) VIA34
+      NEW M3 ( 23040 297 ) ( * 303 ) VIA34
+      NEW M4 ( 16596 303 ) ( 17028 * )
+      NEW M4 ( 17028 303 ) ( 23040 * )
+      NEW M4 ( 23040 303 ) ( 36108 * ) VIA34
+      NEW M3 ( 36108 297 ) ( * 303 )
+      NEW M2 ( 23040 297 ) VIA12
+      NEW M3 ( 16596 225 ) VIA23
+      NEW M3 ( 17028 297 ) VIA23
+      NEW M3 ( 23040 297 ) VIA23
+      NEW M3 ( 36108 297 ) VIA23
+      NEW M2 ( 36108 297 ) VIA12 ;
+    - net_35 ( inst_29 A ) ( inst_28 Y ) + USE SIGNAL
+      + ROUTED M2 ( 22138 261 ) ( 22644 * ) VIA23
+      NEW M3 ( 22644 261 ) ( * 333 ) VIA23
+      NEW M2 ( 22138 261 ) VIA12
+      NEW M2 ( 22644 333 ) VIA12 ;
+    - net_36 ( inst_32 A ) ( inst_29 Y ) + USE SIGNAL
+      + ROUTED M2 ( 19836 333 ) ( 22068 * ) VIA23
+      NEW M3 ( 22068 297 ) ( * 333 )
+      NEW M2 ( 19836 333 ) VIA12
+      NEW M3 ( 22068 297 ) VIA23
+      NEW M2 ( 22068 297 ) VIA12 ;
+    - net_37 ( inst_25 C ) ( inst_24 A2 ) ( inst_21 Y ) + USE SIGNAL
+      + ROUTED M3 ( 14832 153 ) ( * 225 ) VIA23
+      NEW M2 ( 15588 189 ) ( 15948 * ) VIA23
+      NEW M2 ( 14823 224 ) ( * 225 )
+      NEW M2 ( 14823 225 ) ( 14832 * )
+      NEW M2 ( 15946 225 ) ( 15948 * ) VIA23
+      NEW M2 ( 14832 153 ) ( 15228 * ) VIA23
+      NEW M3 ( 15228 153 ) ( * 189 ) VIA23
+      NEW M3 ( 15948 189 ) ( * 225 )
+      NEW M2 ( 15228 189 ) ( 15588 * ) VIA23
+      NEW M3 ( 15588 189 ) ( * 333 ) VIA23
+      NEW M2 ( 14823 224 ) VIA12
+      NEW M2 ( 15946 225 ) VIA12
+      NEW M3 ( 14832 153 ) VIA23
+      NEW M2 ( 15588 333 ) VIA12 ;
+    - net_38 ( inst_24 B ) ( inst_23 Y ) + USE SIGNAL
+      + ROUTED M2 ( 14400 189 ) ( 14868 * ) VIA23
+      NEW M2 ( 14868 225 ) ( 14877 * ) VIA12
+      NEW M3 ( 14868 189 ) ( * 225 ) VIA23
+      NEW M3 ( 14400 189 ) ( * 297 ) VIA23
+      NEW M3 ( 14400 189 ) VIA23
+      NEW M2 ( 14400 297 ) VIA12 ;
+    - net_39 ( inst_31 A1 ) ( inst_30 Y ) + USE SIGNAL
+      + ROUTED M3 ( 16812 189 ) ( * 297 ) VIA23
+      NEW M2 ( 16812 297 ) ( 16830 * ) VIA12
+      NEW M2 ( 16812 189 ) ( 16920 * ) VIA23
+      NEW M3 ( 16920 189 ) ( * 333 ) VIA23
+      NEW M2 ( 16920 333 ) ( 16938 * ) VIA12
+      NEW M3 ( 16812 189 ) VIA23 ;
+    - net_4 ( PIN net_4 ) ( inst_34 A ) ( inst_2 B ) + USE SIGNAL
+      + ROUTED M2 ( 35748 261 ) ( 35928 * ) VIA23
+      NEW M2 ( 34884 297 ) ( 34902 * ) VIA12
+      NEW M2 ( 35424 333 ) ( 35748 * ) VIA23
+      NEW M3 ( 35928 261 ) ( * 297 ) VIA23
+      NEW M3 ( 35748 261 ) ( * 333 )
+      NEW M3 ( 34884 297 ) ( * 333 ) VIA23
+      NEW M2 ( 34884 333 ) ( 35424 * ) VIA23
+      NEW M3 ( 35424 333 ) ( * 504 )
+      NEW M2 ( 35928 297 ) VIA12
+      NEW M3 ( 35748 261 ) VIA23
+      NEW M3 ( 34884 297 ) VIA23 ;
+    - net_40 ( inst_31 B1 ) ( inst_30 B1 ) ( inst_25 Y ) + USE SIGNAL
+      + ROUTED M2 ( 16956 297 ) ( 16974 * ) VIA12
+      NEW M2 ( 16659 225 ) ( 16668 * ) VIA23
+      NEW M3 ( 16956 297 ) ( * 423 ) VIA23
+      NEW M3 ( 16668 225 ) ( * 423 ) VIA23
+      NEW M2 ( 16668 423 ) ( 16956 * )
+      NEW M2 ( 16380 423 ) ( 16668 * )
+      NEW M3 ( 16380 297 ) ( * 423 ) VIA23
+      NEW M2 ( 16659 225 ) VIA12
+      NEW M3 ( 16956 297 ) VIA23
+      NEW M3 ( 16380 297 ) VIA23
+      NEW M2 ( 16380 297 ) VIA12 ;
+    - net_41 ( inst_46 B ) ( inst_41 Y ) + USE SIGNAL
+      + ROUTED M2 ( 1872 261 ) ( 3276 * ) VIA23
+      NEW M2 ( 3267 225 ) ( 3276 * ) VIA23
+      NEW M3 ( 3276 225 ) ( * 261 )
+      NEW M3 ( 1872 261 ) ( * 297 ) VIA23
+      NEW M2 ( 1872 297 ) ( 1890 * ) VIA12
+      NEW M2 ( 3267 225 ) VIA12
+      NEW M3 ( 1872 261 ) VIA23 ;
+    - net_42 ( inst_45 D ) ( inst_44 B1 ) ( inst_41 A ) ( inst_40 Y ) + USE SIGNAL
+      + ROUTED M2 ( 1800 333 ) ( 1818 * ) VIA12
+      NEW M2 ( 5832 333 ) ( 5850 * ) VIA12
+      NEW M2 ( 6291 225 ) ( 6300 * ) VIA23
+      NEW M3 ( 1800 333 ) ( * 351 ) VIA34
+      NEW M3 ( 5832 333 ) ( * 351 ) VIA34
+      NEW M3 ( 6300 225 ) ( * 351 ) NR_VIA3_PH_V
+      NEW M4 ( 1800 351 ) ( 5832 * )
+      NEW M4 ( 5832 351 ) ( 6300 * ) VIA45
+      NEW M5 ( 6300 351 ) ( * 356 ) VIA56
+      NEW M6 ( 6300 356 ) ( 27612 * ) VIA56
+      NEW M5 ( 27612 333 ) ( * 356 )
+      NEW M2 ( 27594 333 ) ( 27612 * ) VIA23
+      NEW M2 ( 6291 225 ) VIA12
+      NEW M3 ( 1800 333 ) VIA23
+      NEW M3 ( 5832 333 ) VIA23
+      NEW M5 ( 27612 333 ) VIA45
+      NEW M4 ( 27612 333 ) NR_VIA3_PH_V
+      NEW M2 ( 27594 333 ) VIA12 ;
+    - net_43 ( inst_35 A ) ( inst_34 Y ) + USE SIGNAL
+      + ROUTED M2 ( 34488 333 ) ( 34722 * ) VIA12
+      NEW M2 ( 34488 333 ) VIA12 ;
+    - net_44 ( inst_38 C ) ( inst_37 B ) ( inst_35 Y ) + USE SIGNAL
+      + ROUTED M3 ( 31968 153 ) ( * 225 ) VIA23
+      NEW M3 ( 33192 153 ) ( * 225 ) VIA23
+      NEW M2 ( 31984 225 ) ( * 243 ) VIA12
+      NEW M2 ( 33183 225 ) ( 33192 * )
+      NEW M2 ( 31968 225 ) ( 31984 * )
+      NEW M2 ( 31968 153 ) ( 33192 * ) VIA23
+      NEW M2 ( 33192 153 ) ( 34632 * ) VIA23
+      NEW M3 ( 34632 153 ) ( * 333 ) VIA23
+      NEW M3 ( 31968 153 ) VIA23
+      NEW M2 ( 34632 333 ) VIA12 ;
+    - net_45 ( inst_38 B ) ( inst_37 CON ) + USE SIGNAL
+      + ROUTED M3 ( 31788 297 ) ( * 495 ) VIA23
+      NEW M2 ( 31788 495 ) ( 32652 * ) VIA23
+      NEW M3 ( 32652 297 ) ( * 495 )
+      NEW M2 ( 31788 297 ) VIA12
+      NEW M3 ( 31788 297 ) VIA23
+      NEW M3 ( 32652 297 ) VIA23 ;
+    - net_46 ( inst_39 B ) ( inst_37 SN ) + USE SIGNAL
+      + ROUTED M2 ( 30708 297 ) ( 30726 * ) VIA12
+      NEW M3 ( 30708 297 ) ( * 459 ) VIA23
+      NEW M2 ( 30708 459 ) ( 32832 * ) VIA23
+      NEW M3 ( 32832 333 ) ( * 459 )
+      NEW M3 ( 30708 297 ) VIA23
+      NEW M3 ( 32832 333 ) VIA23
+      NEW M2 ( 32832 333 ) VIA12 ;
+    - net_47 ( inst_40 A ) ( inst_39 Y ) + USE SIGNAL
+      + ROUTED M3 ( 27648 261 ) ( * 333 ) VIA23
+      NEW M2 ( 27648 333 ) ( 27666 * ) VIA12
+      NEW M2 ( 27648 261 ) ( 30636 * ) VIA23
+      NEW M3 ( 30636 261 ) ( * 333 ) VIA23
+      NEW M2 ( 30636 333 ) ( 30654 * ) VIA12
+      NEW M3 ( 27648 261 ) VIA23 ;
+    - net_48 ( inst_47 A ) ( inst_46 Y ) + USE SIGNAL
+      + ROUTED M2 ( 3456 297 ) ( 3474 * ) VIA12
+      NEW M3 ( 3060 333 ) ( * 459 ) VIA23
+      NEW M3 ( 3456 297 ) ( * 459 ) VIA23
+      NEW M2 ( 3060 459 ) ( 3456 * )
+      NEW M2 ( 3060 333 ) ( 3078 * ) VIA12
+      NEW M3 ( 3456 297 ) VIA23
+      NEW M3 ( 3060 333 ) VIA23 ;
+    - net_49 ( inst_47 C ) ( inst_44 B2 ) ( inst_43 Y ) + USE SIGNAL
+      + ROUTED M3 ( 3564 225 ) ( * 297 ) VIA23
+      NEW M2 ( 3564 297 ) ( 3582 * ) VIA12
+      NEW M2 ( 3564 225 ) ( 6345 * ) VIA12
+      NEW M2 ( 6345 225 ) ( 6624 * ) VIA23
+      NEW M3 ( 6624 225 ) ( * 333 ) VIA23
+      NEW M2 ( 6624 333 ) ( 6642 * ) VIA12
+      NEW M3 ( 3564 225 ) VIA23 ;
+    - net_5 ( PIN net_5 ) ( inst_27 B ) ( inst_26 A ) ( inst_2 A ) + USE SIGNAL
+      + ROUTED M2 ( 36144 225 ) ( 36153 * )
+      NEW M2 ( 36396 423 ) ( 36972 * ) VIA23
+      NEW M2 ( 36153 222 ) ( * 225 )
+      NEW M3 ( 36144 225 ) ( * 333 ) VIA23
+      NEW M3 ( 36972 333 ) ( * 423 )
+      NEW M2 ( 36000 333 ) ( 36144 * )
+      NEW M2 ( 36144 333 ) ( 36396 * ) VIA23
+      NEW M3 ( 36396 333 ) ( * 423 ) VIA23
+      NEW M3 ( 36396 423 ) ( * 504 )
+      NEW M2 ( 36153 222 ) VIA12
+      NEW M2 ( 36972 333 ) VIA12
+      NEW M2 ( 36000 333 ) VIA12
+      NEW M3 ( 36144 225 ) VIA23
+      NEW M3 ( 36972 333 ) VIA23 ;
+    - net_50 ( inst_45 A ) ( inst_44 Y ) + USE SIGNAL
+      + ROUTED M3 ( 5256 153 ) ( * 225 ) VIA23
+      NEW M2 ( 5256 225 ) ( 5265 * ) VIA12
+      NEW M2 ( 5256 153 ) ( 5976 * ) VIA23
+      NEW M3 ( 5976 153 ) ( * 333 ) VIA23
+      NEW M2 ( 5976 333 ) ( 5994 * ) VIA12
+      NEW M3 ( 5256 153 ) VIA23 ;
+    - net_51 ( inst_48 B ) ( inst_45 Y ) + USE SIGNAL
+      + ROUTED M3 ( 5184 297 ) ( * 459 ) VIA23
+      NEW M3 ( 4284 297 ) ( * 459 ) VIA23
+      NEW M2 ( 4284 459 ) ( 5184 * )
+      NEW M2 ( 5184 297 ) ( 5202 * ) VIA12
+      NEW M3 ( 4284 297 ) VIA23
+      NEW M3 ( 5184 297 ) VIA23 ;
+    - net_52 ( inst_49 A ) ( inst_48 Y ) + USE SIGNAL
+      + ROUTED M2 ( 3960 333 ) ( 4464 * ) VIA12
+      NEW M2 ( 3960 333 ) VIA12 ;
+    - net_53 ( inst_17 Y ) ( inst_0 D ) + USE SIGNAL
+      + ROUTED M3 ( 18612 333 ) ( * 447 ) VIA34
+      NEW M3 ( 10188 333 ) ( * 447 ) VIA34
+      NEW M4 ( 10188 447 ) ( 18612 * )
+      NEW M2 ( 18612 333 ) ( 18630 * ) VIA12
+      NEW M2 ( 10188 333 ) VIA12
+      NEW M3 ( 10188 333 ) VIA23
+      NEW M3 ( 18612 333 ) VIA23 ;
+    - net_54 ( inst_31 A3 ) ( inst_30 A2 ) ( inst_25 A ) ( inst_24 Y ) ( inst_1 D ) + USE SIGNAL
+      + ROUTED M3 ( 16308 225 ) ( * 261 ) VIA23
+      NEW M2 ( 15228 225 ) ( 16308 * ) VIA23
+      NEW M3 ( 14940 297 ) ( * 459 ) VIA23
+      NEW M2 ( 16722 297 ) ( 17064 * ) VIA23
+      NEW M2 ( 17064 297 ) ( 17082 * ) VIA12
+      NEW M2 ( 16308 261 ) ( 16310 * ) VIA12
+      NEW M3 ( 17064 225 ) ( * 297 )
+      NEW M3 ( 13032 333 ) ( * 459 ) VIA23
+      NEW M2 ( 16308 225 ) ( 17064 * ) VIA23
+      NEW M2 ( 13032 459 ) ( 14940 * )
+      NEW M3 ( 15228 225 ) ( * 297 ) VIA23
+      NEW M2 ( 14940 297 ) ( 15228 * )
+      NEW M2 ( 16722 297 ) VIA12
+      NEW M2 ( 13032 333 ) VIA12
+      NEW M3 ( 13032 333 ) VIA23
+      NEW M3 ( 15228 225 ) VIA23
+      NEW M3 ( 14940 297 ) VIA23
+      NEW M2 ( 14940 297 ) VIA12 ;
+    - net_55 ( inst_33 Y ) ( inst_18 D ) + USE SIGNAL
+      + ROUTED M3 ( 7272 333 ) ( * 495 ) VIA23
+      NEW M3 ( 8172 333 ) ( * 495 ) VIA23
+      NEW M2 ( 7272 495 ) ( 8172 * )
+      NEW M2 ( 7272 333 ) ( 7290 * ) VIA12
+      NEW M2 ( 8172 333 ) VIA12
+      NEW M3 ( 8172 333 ) VIA23
+      NEW M3 ( 7272 333 ) VIA23 ;
+    - net_56 ( inst_49 Y ) ( inst_19 D ) + USE SIGNAL
+      + ROUTED M2 ( 4536 261 ) ( 8712 * ) VIA23
+      NEW M3 ( 8712 261 ) ( * 333 ) VIA23
+      NEW M3 ( 4536 261 ) ( * 333 ) VIA23
+      NEW M2 ( 8712 333 ) VIA12
+      NEW M3 ( 4536 261 ) VIA23
+      NEW M2 ( 4536 333 ) VIA12 ;
+    - net_6 ( PIN net_6 ) ( inst_13 C ) ( inst_11 A ) ( inst_10 Y ) + USE SIGNAL
+      + ROUTED M2 ( 18000 333 ) ( 18108 * ) VIA12
+      NEW M3 ( 18000 297 ) ( * 333 ) VIA23
+      NEW M3 ( 18000 333 ) ( * 504 )
+      NEW M2 ( 18000 297 ) ( 18288 * ) VIA12
+      NEW M2 ( 17586 297 ) ( 18000 * ) VIA23
+      NEW M2 ( 17586 297 ) VIA12 ;
+    - net_7 ( PIN net_7 ) ( inst_45 C ) ( inst_44 A2 ) ( inst_18 QN ) ( inst_5 B ) + USE SIGNAL
+      + ROUTED M3 ( 11376 399 ) ( * 504 )
+      NEW M2 ( 7668 153 ) ( 10908 * ) VIA23
+      NEW M2 ( 7380 297 ) ( 7668 * ) VIA23
+      NEW M3 ( 26064 297 ) ( * 399 ) VIA34
+      NEW M4 ( 11376 399 ) ( 26064 * )
+      NEW M4 ( 10908 399 ) ( 11376 * ) VIA34
+      NEW M3 ( 10908 153 ) ( * 399 ) VIA34
+      NEW M2 ( 6399 225 ) ( 6408 * ) VIA23
+      NEW M3 ( 7668 153 ) ( * 297 )
+      NEW M3 ( 6408 225 ) ( * 297 ) VIA23
+      NEW M2 ( 5670 297 ) ( 6408 * )
+      NEW M2 ( 6408 297 ) ( 7380 * ) VIA23
+      NEW M3 ( 7380 297 ) ( * 333 ) VIA23
+      NEW M2 ( 26064 297 ) VIA12
+      NEW M2 ( 6399 225 ) VIA12
+      NEW M2 ( 5670 297 ) VIA12
+      NEW M3 ( 26064 297 ) VIA23
+      NEW M3 ( 7668 153 ) VIA23
+      NEW M2 ( 7380 333 ) VIA12 ;
+    - net_8 ( PIN net_8 ) ( inst_22 B ) ( inst_19 Q ) ( inst_10 C ) + USE SIGNAL
+      + ROUTED M3 ( 13608 297 ) ( * 504 )
+      NEW M2 ( 9144 297 ) ( 13608 * ) VIA23
+      NEW M2 ( 14283 225 ) ( 14292 * ) VIA23
+      NEW M3 ( 14292 225 ) ( * 297 ) VIA23
+      NEW M2 ( 14292 297 ) ( 17370 * ) VIA12
+      NEW M2 ( 13608 297 ) ( 14292 * )
+      NEW M3 ( 9144 297 ) ( * 333 ) VIA23
+      NEW M2 ( 14283 225 ) VIA12
+      NEW M3 ( 9144 297 ) VIA23
+      NEW M2 ( 9144 333 ) VIA12 ;
+    - net_9 ( PIN net_9 ) ( inst_14 B ) ( inst_1 Q ) + USE SIGNAL
+      + ROUTED M2 ( 23292 225 ) ( 23301 * )
+      NEW M2 ( 18396 423 ) ( 23292 * ) VIA23
+      NEW M4 ( 13500 207 ) ( 18396 * ) VIA34
+      NEW M2 ( 23301 225 ) ( * 240 ) VIA12
+      NEW M3 ( 23292 225 ) ( * 423 )
+      NEW M3 ( 18396 423 ) ( * 504 )
+      NEW M3 ( 18396 207 ) ( * 423 ) VIA23
+      NEW M3 ( 13500 207 ) ( * 333 ) VIA23
+      NEW M3 ( 23292 225 ) VIA23
+      NEW M4 ( 13500 207 ) VIA34
+      NEW M2 ( 13500 333 ) VIA12 ;
+    - rst ( PIN rst ) + USE SIGNAL ;
+END NETS
+END DESIGN
