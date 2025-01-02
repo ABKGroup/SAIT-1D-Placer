@@ -62,7 +62,7 @@ struct netHPWL {
   int pre_lx = 0;
   int pre_ux = 0;
   int pre_hpwl = 0;  
-  bool scratch_flag = false;
+  bool scratch_flag = true;
 
   netHPWL() 
   { 
@@ -89,7 +89,7 @@ struct netHPWL {
     pre_lx = lx;
     pre_ux = ux;
     pre_hpwl = hpwl;
-    scratch_flag = false;
+    scratch_flag = true;
   }
 
   void restore()
@@ -97,7 +97,7 @@ struct netHPWL {
     lx = pre_lx;
     ux = pre_ux;
     hpwl = pre_hpwl;
-    scratch_flag = false;
+    scratch_flag = true;
   }
 
   int getDeltaHPWL() {

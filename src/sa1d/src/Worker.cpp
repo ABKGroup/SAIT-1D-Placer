@@ -278,9 +278,9 @@ int SAWorker::swapCells(int id1, int id2)
     net_hpwl_[net_id].backup();
   }
 
-  for (auto& cell_id : affected_cells_) {
-    updateDeltaHPWLUtil(cell_id);
-  }
+  // for (auto& cell_id : affected_cells_) {
+  //   updateDeltaHPWLUtil(cell_id);
+  // }
 
   int delta_hpwl = 0;
   for (auto& net_id : affected_nets_) {
@@ -371,9 +371,9 @@ int SAWorker::moveCell(int id, int n)
     net_hpwl_[net_id].backup();
   }
 
-  for (auto& cell_id : affected_cells_) {
-    updateDeltaHPWLUtil(cell_id);
-  }
+  // for (auto& cell_id : affected_cells_) {
+  //   updateDeltaHPWLUtil(cell_id);
+  // }
 
   int delta_hpwl = 0;
   for (auto& net_id : affected_nets_) {
@@ -627,6 +627,7 @@ void SAWorker::reportDetails() {
   // Report Current Iteration and Temperature
   logger_->report("###########################################");
   logger_->report("## Worker ID: {:<26} ##", worker_id_);
+  logger_->report("## cooling_rate: {:<15.3f} ##", cooling_rate_);
   logger_->report("## Eelapsed Time: {:<15.3f} second ##", elapsed_time_);
   logger_->report("## Flip operation count : {:<15} ##", flip_op_count_);
   logger_->report("## Move operation count : {:<15} ##", move_op_count_);

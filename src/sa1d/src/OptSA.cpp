@@ -273,7 +273,7 @@ void OptSA::checkParams()
   }
 
   // Ensure the sum of win_ratios_ is equal to worker_count_
-  if (std::accumulate(top_k_ratio_.begin(), top_k_ratio_.end(), 0.0) != 1.0) {
+  if ((std::accumulate(top_k_ratio_.begin(), top_k_ratio_.end(), 0.0) - 1.0) > 0.00001) {
     logger_->error(sa1d::SA1D, 5, "Invalid top_k_ratio ! (summation should be 1.0)");
   }
 
@@ -484,16 +484,16 @@ void OptSA::runSA()
     cellOrdering(cell_order, orients);
     logger_->report("[INFO] Finish initial cell ordering");
   }
-
-  
+ 
   // Initialize the workers
   std::vector<std::unique_ptr<SAWorker> > workers;
+  // try to workers with different cooling rate
+  float delta_cooling_rate = (0.995 - cooling_rate_) / (num_workers_ / 2 + 1);
   for (int worker_id = 0; worker_id < num_workers_; worker_id++) {
-    std::cout << "enter worker_id = " << worker_id << std::endl;
     std::unique_ptr<SAWorker> worker = std::make_unique<SAWorker>(this, logger_, worker_id);
     worker->setRandomSeed(seed_ + worker_id);
     worker->setTemp(max_temp_); // Initial Temperature
-    worker->setCoolingRate(cooling_rate_);
+    worker->setCoolingRate(cooling_rate_ + (worker_id - num_workers_ / 2) * delta_cooling_rate);
     worker->setNumMovePerIter(num_move_per_iter_);
     worker->setMaxIter(static_cast<int>(max_iter_ * sync_freq_));
     //worker->setSaveFlag(true);

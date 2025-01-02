@@ -2,18 +2,18 @@
   "num_workers": 40,
   "num_threads": 40,
   "move_probs": [
-    [0.33, 0.33, 0.34]
+    [0.49, 0.49, 0.02]
   ],
   "max_temp": 100.0,
   "max_temp_derate_factor": 0.99,
   "min_temp": 1e-18,
   "max_iter": 5000,
   "cooling_rate": 0.99,
-  "move_budget": 1000000,
+  "move_budget": 3000000,
   "gwtw_iter": 1,
-  "sync_freq": 1.0,
-  "top_k": 1,
-  "top_k_ratio": [1.0],
+  "sync_freq": 0.1,
+  "top_k": 5,
+  "top_k_ratio": [0.2, 0.2, 0.2, 0.2, 0.2],
   "seed": 1,
   "incremental_flag": false
 }
